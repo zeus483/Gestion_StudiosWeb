@@ -56,3 +56,14 @@ a {
   color: #42b983;
 }
 </style>
+methods: {
+    fetchData() {
+        this.$http.get('/items')
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }
+}
