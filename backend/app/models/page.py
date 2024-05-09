@@ -6,4 +6,4 @@ class Page(Base):
     __tablename__ = 'pages'
     url = Column(String, primary_key=True)
     name = Column(String, nullable=False)
-    accounts = relationship("Account", back_populates="page")
+    accounts = relationship("Account", back_populates="pages")
