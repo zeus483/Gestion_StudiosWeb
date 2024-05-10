@@ -4,6 +4,8 @@ from ...db import SessionLocal
 from passlib.context import CryptContext
 from ...models.user import User
 from ...schemas.user import UserCreate
+from ...schemas.user_update import UserUpdate
+from ...schemas.change_password import PasswordChange
 from ...crud import users_crud 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -37,3 +39,23 @@ def get_user(users:str,db: Session=Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=400, detail="Username not found")
     return db_user
+
+@router.put("/users/{username}", response_model= UserUpdate)
+def update_user(username: str, user_update: UserUpdate, db: Session = Depends(get_db)):
+    updated_user = users_crud.update_user(db, username=username, user_update=user_update)
+    if updated_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return updated_user
+
+@router.post("/change-password/")
+def change_password(request: PasswordChange, db: Session = Depends(get_db)):
+    updated_user = users_crud.change_user_password(
+        db=db,
+        username=request.username,
+        current_password=request.current_password,
+        new_password=request.new_password
+    )
+    if updated_user is None:
+        raise HTTPException(status_code=400, detail="Invalid current password or username does not exist")
+    return updated_user
+
