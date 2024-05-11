@@ -1,4 +1,4 @@
-from fastapi import APIRouter,HTTPException, Depends
+from fastapi import APIRouter,HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from ...db import SessionLocal
 from passlib.context import CryptContext
@@ -7,6 +7,8 @@ from ...schemas.user import UserCreate
 from ...schemas.user_update import UserUpdate
 from ...schemas.change_password import PasswordChange
 from ...crud import users_crud 
+from ...schemas.credentials import LoginCredentials
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -33,7 +35,7 @@ def create_new_user( user: UserCreate,db: Session = Depends(get_db)):
     hashepassword = pwd_context.hash(user.hashed_password)
     user.hashed_password = hashepassword
     return users_crud.create_user(db=db, user=user)
-@router.post("/user_id")
+@router.get("/user_id")
 def get_user(users:str,db: Session=Depends(get_db)):
     db_user = users_crud.get_user(db,username= users)
     if not db_user:
@@ -59,3 +61,14 @@ def change_password(request: PasswordChange, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Invalid current password or username does not exist")
     return updated_user
 
+@router.post("/login")
+async def login(form_data: LoginCredentials, db: Session = Depends(get_db)):
+    user_authenticated = users_crud.autentify_password(db, form_data.username, form_data.password)
+    if not user_authenticated:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    db_user = users_crud.get_user(db,form_data.username)
+    return {"access": True, "user_info": db_user}

@@ -26,3 +26,8 @@ docker-compose.yml: Para configurar servicios necesarios como bases de datos o s
 
 ### modificaciones a la base de datos
 para agregar nuevas modificaciones a la base de datos como tablas, columnas o algo asi, se debe de agregar el model o modificar los model que contenga la tabla y ejecutar el comando "alembic revision --autogenerate -m "comentario de la modificacion, agregar tabla, editar columna, etc"" y luego "alembic upgrade head" 
+
+
+### ejecutar frontend y backend 
+para ejecutar el frontend es con el comando "npm run serve"
+y para ejecuta el backend es con el comando "uvicorn main:app --reload --host 0.0.0.0 --port 8000"

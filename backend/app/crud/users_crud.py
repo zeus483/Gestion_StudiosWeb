@@ -42,4 +42,5 @@ def change_user_password(db: Session, username: str, current_password: str, new_
 
 def autentify_password(db: Session, usermane: str, password :  str):
     db_user  = db.query(User).filter(User.username == usermane).first()
+    print(db_user)
     return pwd_context.verify(str(password),db_user.hashed_password)

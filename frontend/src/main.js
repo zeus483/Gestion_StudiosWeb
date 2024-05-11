@@ -1,8 +1,21 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import Vue from 'vue'
 import axios from 'axios';
-axios.defaults.baseURL = '/api'
-Vue.prototype.$http = axios;
+import router from './router';
+import createStore from './store';
 
-createApp(App).mount('#app')
+
+// Configura axios
+axios.defaults.baseURL = '/api';
+
+const app = createApp(App);
+
+// Proporciona axios a toda tu aplicación como $http
+app.config.globalProperties.$http = axios;
+
+// Asegúrate de usar el router
+app.use(router);
+app.use(createStore)
+
+// Monta la aplicación en el elemento #app
+app.mount('#app');
