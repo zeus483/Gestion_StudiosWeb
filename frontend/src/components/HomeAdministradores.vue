@@ -1,7 +1,7 @@
 <template>
     <div class="admin-panel">   
       <aside class="sidebar">
-        <h1 class = "welcome">Hello word</h1>
+        <h1 lass="welcome">Hello word</h1>
         <input type="text" placeholder="search a model" class="search-box">
         <button class="sidebar-button" @click="goToCreateUser">Create new user</button>
         <button class="sidebar-button">Create new Model</button>
