@@ -10,6 +10,9 @@ def get_model_id(db: Session, id : int):
 #traer las modelos con un combre de usuario
 def get_model_username(db : Session, username : str):
     return db.query(Model).filter(Model.username == username)
+#optener modelo por email
+def get_models_by_email(db: Session, email: str):
+    return db.query(Model).filter(Model.email == email).all()
 
 #traer todas las modelos
 def get_model(db: Session, skip : int = 0, limit : int = 100):
@@ -22,3 +25,22 @@ def create_model(db: Session, model : CreateModel):
     db.commit()
     db.refresh(db_model)
     return db_model
+#funcion para modificar el registro de una modelo
+def update_model(db: Session, model_id: int, model_update: ModelUpdate):
+    db_model = db.query(Model).filter(Model.id == model_id).first()
+    if db_model:
+        for key, value in model_update.dict(exclude_unset=True).items():
+            setattr(db_model, key, value)
+        db.commit()
+        db.refresh(db_model)
+        return db_model
+    return None
+
+#funcion para eliminar una modelo
+def delete_model(db: Session, model_id: int):
+    db_model = db.query(Model).filter(Model.id == model_id).first()
+    if db_model:
+        db.delete(db_model)
+        db.commit()
+        return True
+    return False
