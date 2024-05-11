@@ -17,5 +17,13 @@ def get_db():
         db.close()
         
 @router.get("/models")
-def read_users():
-    return {"message": "Fetching all models"}
+def read_models(db : Session = Depends(get_db)):
+    users = models_crud.get_models(db=db)
+    return users
+@router.post("/createModel")
+def create_new_user( model: CreateModel,db: Session = Depends(get_db)):
+    return models_crud.create_model(db=db, model=model)
+
+@router.delete("/delete_model/{id}")
+def delete_model(id : int, db : Session = Depends(get_db)):
+    return models_crud.delete_model(db,id)

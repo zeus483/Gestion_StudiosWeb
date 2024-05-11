@@ -17,6 +17,7 @@ logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 def read_root():
     return {"Hellow": "world"}
 app.include_router(users.router)
+app.include_router(models.router)
 app.include_router(test_db_router)
 app.add_middleware(
     CORSMiddleware,

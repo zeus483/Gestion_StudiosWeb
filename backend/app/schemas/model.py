@@ -5,5 +5,5 @@ class CreateModel(BaseModel):
     name: str
     email: str
     phone: str
-    type_accuount: str
+    type_account: str
     number_account: str
