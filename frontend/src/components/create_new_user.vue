@@ -109,7 +109,9 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f4;
+  background-image: url('~@/assets/v1016-b-09.jpg');
+  background-size: cover; /* Cubre todo el contenedor */
+  background-position: center;
 }
 
 .user-form {
