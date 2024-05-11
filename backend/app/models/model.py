@@ -10,7 +10,7 @@ class Model(Base):
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     phone = Column(String, nullable=False)
-    type_accuount = Column(String, nullable=False)
+    type_account = Column(String, nullable=False)
     number_account = Column(String(12), nullable=False)
     user = relationship("User", back_populates="models")
     accounts = relationship("Account", back_populates="model")
