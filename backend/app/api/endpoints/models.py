@@ -25,5 +25,36 @@ def create_new_user( model: CreateModel,db: Session = Depends(get_db)):
     return models_crud.create_model(db=db, model=model)
 
 @router.delete("/delete_model/{id}")
-def delete_model(id : int, db : Session = Depends(get_db)):
-    return models_crud.delete_model(db,id)
+def delete_model(id: int, db: Session = Depends(get_db)):
+    if not models_crud.delete_model(db, id):
+        raise HTTPException(status_code=404, detail="Model not found")
+    return {"detail": "Model deleted successfully"}
+
+@router.put("/update_model/{id}")
+def update_model(id: int, model_update: ModelUpdate, db: Session = Depends(get_db)):
+    updated_model = models_crud.update_model(db, id, model_update)
+    if updated_model is None:
+        raise HTTPException(status_code=404, detail="Model not found")
+    return updated_model
+
+
+@router.get("/models/{id}")
+def read_model(id: int, db: Session = Depends(get_db)):
+    model = models_crud.get_model_id(db, id)
+    if model is None:
+        raise HTTPException(status_code=404, detail="Model not found")
+    return model
+
+@router.get("/models/by_username/{username}")
+def get_model_by_username(username: str, db: Session = Depends(get_db)):
+    model = models_crud.get_model_username(db, username)
+    if model is None:
+        raise HTTPException(status_code=404, detail="Model not found")
+    return model
+
+@router.get("/models/by_email/{email}")
+def get_model_by_email(email: str, db: Session = Depends(get_db)):
+    model = models_crud.get_models_by_email(db, email)
+    if not model:
+        raise HTTPException(status_code=404, detail="Model not found")
+    return model
