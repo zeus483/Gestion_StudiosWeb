@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from ..db.base import Base
+from ..models.page import Page
+from ..models.user import User
 
 class Tokens(Base):
     __tablename__ = 'tokens'
