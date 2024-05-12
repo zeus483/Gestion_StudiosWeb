@@ -7,3 +7,4 @@ class Page(Base):
     url = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     accounts = relationship("Account", back_populates="pages")
+    tokens = relationship("Tokens", back_populates="pages")

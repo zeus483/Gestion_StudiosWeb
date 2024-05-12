@@ -26,7 +26,7 @@ export default {
   methods: {
     async login() {
   try {
-    const response = await this.$http.post('http://localhost:8080/api/login', this.credentials);
+    const response = await this.$http.post('http://192.168.1.172:8080/api/login', this.credentials);
     console.log('Login successful:', response.data);
 
     if (response.data.access) {

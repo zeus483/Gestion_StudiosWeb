@@ -4,7 +4,7 @@
       <h1 class="welcome-title">Hello word</h1>
       <input type="text" placeholder="search a model" class="search-box">
       <button class="sidebar-button" @click="goToCreateUser">Create new user</button>
-      <button class="sidebar-button">Create new Model</button>
+      <button class="sidebar-button" @click="goToCreateModel">Create new Model</button>
       <button class="sidebar-button">Resumen 15na</button>
       <button class="sidebar-button">Metas Modelos</button>
       <button class="sidebar-button">Finanzas</button>
@@ -38,6 +38,9 @@ export default {
   methods: {
     goToCreateUser() {
       this.$router.push('/create-user');
+    },
+    goToCreateModel(){
+      this.$router.push('/create-model');
     }
   }
 }

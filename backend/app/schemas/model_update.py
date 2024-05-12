@@ -8,3 +8,4 @@ class ModelUpdate(BaseModel):
     phone: Optional[str] = None
     type_accuount: Optional[str] = None
     number_account: Optional[str] = None
+    connection_hours : Optional[float] = None

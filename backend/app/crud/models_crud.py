@@ -23,7 +23,7 @@ def get_models(db: Session, skip : int = 0, limit : int = 100):
 def create_model(db: Session, model : CreateModel):
     db_user = get_user(db,username= model.username)
     if db_user:
-        db_model = Model(username = model.username,name = model.name, email = model.email, phone = model.phone, number_account = model.number_account, type_account = model.type_account)
+        db_model = Model(username = model.username,name = model.name, email = model.email, phone = model.phone, number_account = model.number_account, type_account = model.type_account, connection_hours = model.connection_hours)
         db.add(db_model)
         db.commit()
         db.refresh(db_model)

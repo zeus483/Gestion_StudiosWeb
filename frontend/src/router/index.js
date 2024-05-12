@@ -3,6 +3,7 @@ import LoginForm from '@/components/LoginForm';
 import HelloWorld from "@/components/HelloWorld";
 import HomeAdministradores from '@/components/HomeAdministradores';
 import create_new_user from '@/components/create_new_user';
+import create_new_model from '@/components/create_new_model';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,6 +29,11 @@ const router = createRouter({
       name : "new_user",
       component : create_new_user,
       meta: { requiresAuth: true, role: 'Administrador' }
+    },
+    {
+      path : "/create-model",
+      name : "new-model",
+      component : create_new_model
     }
     // Agrega más rutas según sea necesario
   ]

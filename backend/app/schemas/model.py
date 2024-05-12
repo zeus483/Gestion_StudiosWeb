@@ -7,3 +7,4 @@ class CreateModel(BaseModel):
     phone: str
     type_account: str
     number_account: str
+    connection_hours : float

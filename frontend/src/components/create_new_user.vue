@@ -75,7 +75,7 @@ export default {
           rol: this.newUser.rol,
           is_active: this.newUser.is_active
         };
-        await this.$http.post('http://localhost:8080/api/create_new_user', payload);
+        await this.$http.post('http://192.168.1.172:8080/api/create_new_user', payload);
         alert('Usuario creado exitosamente');
         this.resetForm();
       } catch (error) {
@@ -85,7 +85,7 @@ export default {
     },
     async checkUserExists() {
       try {
-        await this.$http.get(`http://localhost:8080/api/user_id?users=${this.newUser.username}`);
+        await this.$http.get(`http://192.168.1.172:8080/api/user_id?users=${this.newUser.username}`);
         throw new Error('El nombre de usuario ya está en uso. Por favor, elija otro nombre de usuario.');
       } catch (error) {
         if (error.response && error.response.data && error.response.data.detail === "Username not found") {

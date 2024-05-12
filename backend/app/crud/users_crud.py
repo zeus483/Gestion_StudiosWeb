@@ -44,3 +44,7 @@ def autentify_password(db: Session, usermane: str, password :  str):
     db_user  = db.query(User).filter(User.username == usermane).first()
     print(db_user)
     return pwd_context.verify(str(password),db_user.hashed_password)
+
+#traer los usuarios de categoria modelo y activos 
+def get_active_models(db: Session):
+    return db.query(User).filter(User.is_active == True, User.role == 'Modelo').all()

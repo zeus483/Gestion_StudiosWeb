@@ -72,3 +72,8 @@ async def login(form_data: LoginCredentials, db: Session = Depends(get_db)):
         )
     db_user = users_crud.get_user(db,form_data.username)
     return {"access": True, "user_info": db_user}
+
+@router.get("/active-models")
+def read_active_models(db: Session = Depends(get_db)):
+    active_models = users_crud.get_active_models(db)
+    return active_models

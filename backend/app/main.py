@@ -11,6 +11,13 @@ app= FastAPI(
     version=settings.PROJECT_VERSION,
     description=settings.PROJECT_DESCRIPTION
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todas las origenes, ajusta según tus necesidades
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 @app.get("/")
