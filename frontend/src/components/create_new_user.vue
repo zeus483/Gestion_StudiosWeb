@@ -25,9 +25,12 @@
             Activo
           </label>
         </div>
+        
         <transition name="submit-button" :key="buttonKey">
         <button type="submit" class="submit-button" :disabled="isLoading">Crear Usuario</button>
+        
         </transition>
+        <button type="button" @click="goBack" class="submit-button">Atrás</button>
       </form>
       <p v-if="error" class="error-message">{{ error }}</p>
     </div>
@@ -98,7 +101,10 @@ export default {
       this.newUser = { username: '', password: '', rol: '', is_active: false };
       this.confirmPassword = '';
       this.error = '';
-    }
+    },
+    goBack() {
+        window.location.href = 'http://192.168.1.172:8080/admin';
+      }
   }
 };
 </script>
@@ -160,6 +166,12 @@ input[type="checkbox"] {
     -webkit-transition: ease-out 0.4s;
     -moz-transition: ease-out 0.4s;
     transition: ease-out 0.4s;
+    margin-top: 10px;
+    width: 100%; /* Ocupa todo el ancho disponible del contenedor padre */
+    box-sizing: border-box;
+}
+.back-button {
+  background-color: #666; /* Un color diferente para el botón de atrás */
 }
 
 .submit-button:hover {

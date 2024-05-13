@@ -6,7 +6,7 @@ from .model_history import ModelHistory
 class Model(Base):
     __tablename__ = 'models'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String, ForeignKey('users.username'))
+    username = Column(String, ForeignKey('users.username'), unique=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     phone = Column(String, nullable=False)

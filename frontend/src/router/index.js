@@ -4,6 +4,7 @@ import HelloWorld from "@/components/HelloWorld";
 import HomeAdministradores from '@/components/HomeAdministradores';
 import create_new_user from '@/components/create_new_user';
 import create_new_model from '@/components/create_new_model';
+import goals from "@/components/model-goals";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -34,6 +35,11 @@ const router = createRouter({
       path : "/create-model",
       name : "new-model",
       component : create_new_model
+    },
+    {
+      path : "/model-goals",
+      name : "model-goals",
+      component : goals
     }
     // Agrega más rutas según sea necesario
   ]

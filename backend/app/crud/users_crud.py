@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from ..models.user import User
+from ..models.model  import Model
 from ..schemas.user import UserCreate
 from ..schemas.user_update import UserUpdate
 from ..schemas.change_password import PasswordChange
@@ -47,4 +48,5 @@ def autentify_password(db: Session, usermane: str, password :  str):
 
 #traer los usuarios de categoria modelo y activos 
 def get_active_models(db: Session):
-    return db.query(User).filter(User.is_active == True, User.role == 'Modelo').all()
+    model_usernames = db.query(Model.username).subquery()
+    return db.query(User).filter(User.is_active == True, User.role == 'Modelo', User.username.notin_(model_usernames)).all()
