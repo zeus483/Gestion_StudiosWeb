@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from ..db.base import Base
 from .account import Account
 from .model import Model
+from .tokens import Tokens
 
 class User(Base):
     __tablename__ = 'users'
@@ -13,3 +14,4 @@ class User(Base):
     models = relationship("Model", back_populates="user")
     accounts = relationship("Account", back_populates="user")
     tokens = relationship("Tokens", back_populates= "user")
+    

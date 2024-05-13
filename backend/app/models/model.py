@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date
 from sqlalchemy.orm import relationship
 from ..db.base import Base
+from .model_history import ModelHistory
 
 class Model(Base):
     __tablename__ = 'models'
@@ -18,6 +19,7 @@ class Model(Base):
     follower_growth = Column(Integer, default=0)
     user = relationship("User", back_populates="models")
     accounts = relationship("Account", back_populates="model")
+    model_history = relationship("ModelHistory", back_populates="model")
 
 class FinancialRecord(Base):
     __tablename__ = 'financial_records'

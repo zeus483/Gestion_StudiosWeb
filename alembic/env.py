@@ -15,6 +15,7 @@ import backend.app.models.model
 import backend.app.models.page
 import backend.app.models.account
 import backend.app.models.tokens
+import backend.app.models.model_history
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
