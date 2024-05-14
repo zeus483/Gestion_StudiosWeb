@@ -1,14 +1,14 @@
 <template>
   <div class="admin-panel">   
     <aside class="sidebar">
-      <h1 class="welcome-title">Hello word</h1>
-      <input type="text" placeholder="search a model" class="search-box">
-      <button class="sidebar-button" @click="goToCreateUser">Create new user</button>
-      <button class="sidebar-button" @click="goToCreateModel">Create new Model</button>
-      <button class="sidebar-button" @click="goToGoals">Metas Modelos</button>
-      <button class="sidebar-button">Resumen 15na</button>
-      <button class="sidebar-button">Metas Modelos</button>
-      <button class="sidebar-button">Finanzas</button>
+      <h1 class="welcome-title">Dulce Lujuria</h1>
+      <input type="text" placeholder="Search a model" class="search-box">
+      <button class="sidebar-button" @click="goToCreateUser">Create New User</button>
+      <button class="sidebar-button" @click="goToCreateModel">Create New Model</button>
+      <button class="sidebar-button" @click="goToGoals">Model Goals</button>
+      <button class="sidebar-button">Daily Register</button>
+      <button class="sidebar-button">button off</button>
+      <button class="sidebar-button">button off</button>
     </aside>
     <section class="content">
       <header class="header">
@@ -19,7 +19,7 @@
         <h2>Top Model</h2>
         <p>Tokens: <span>{{ topModel.tokens }}</span></p>
         <p>Followers: <span>{{ topModel.followers }}</span></p>
-        <p>Hour: <span>{{ topModel.hours }}</span></p>
+        <p>Hours: <span>{{ topModel.hours }}</span></p>
       </div>
     </section>
   </div>
@@ -51,22 +51,51 @@ export default {
 </script>
 
 <style>
-.welcome-title {
-  font-size: 24px;
-  color: #333;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #6200ee;
+  --secondary-color: #03dac6;
+  --background-color: #f5f5f5;
+  --text-color: #333;
+  --sidebar-bg: #ffffff;
+  --button-bg: #f7f7f7;
+  --button-hover-bg: #e2e2e2;
+  --border-color: #ccc;
+  --header-bg: #6200ee;
+  --header-text: white;
+  --content-bg: #f9f9f9;
+  --box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .admin-panel {
   display: flex;
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .sidebar {
   width: 250px;
-  background-color: #ffffff;
+  background-color: var(--sidebar-bg);
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: var(--box-shadow);
+}
+
+.welcome-title {
+  font-size: 24px;
+  color: var(--text-color);
+  margin-bottom: 20px;
 }
 
 .sidebar-button {
@@ -74,30 +103,32 @@ export default {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #f7f7f7;
+  background-color: var(--button-bg);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 16px;
 }
 
 .sidebar-button:hover {
-  background-color: #e2e2e2;
+  background-color: var(--button-hover-bg);
 }
 
 .search-box {
   padding: 8px;
   margin-bottom: 20px;
   width: calc(100% - 16px);
-  box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
 }
 
 .content {
   flex-grow: 1;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--content-bg);
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -105,17 +136,43 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  background-color: var(--header-bg);
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--header-text);
 }
 
 .model-details {
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   padding: 20px;
-  background-color: #fff;
+  background-color: white;
   border-radius: 8px;
+  box-shadow: var(--box-shadow);
 }
 
 .model-details h2 {
   margin-top: 0;
-  color: #333;
+  color: var(--text-color);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .admin-panel {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>
