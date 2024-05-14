@@ -9,3 +9,4 @@ class ModelUpdate(BaseModel):
     type_accuount: Optional[str] = None
     number_account: Optional[str] = None
     connection_hours : Optional[float] = None
+    token_goal : Optional[int] = None

@@ -7,6 +7,8 @@ from ...schemas.model import CreateModel
 from ...schemas.model_update import ModelUpdate
 from ...crud import models_crud 
 from ...schemas.credentials import LoginCredentials
+from ...schemas.model_progress import ModelProgress
+from typing import List
 router = APIRouter()
 
 def get_db():
@@ -58,3 +60,8 @@ def get_model_by_email(email: str, db: Session = Depends(get_db)):
     if not model:
         raise HTTPException(status_code=404, detail="Model not found")
     return model
+
+@router.get("/models-and-goals", response_model=List[ModelProgress])
+def get_models_and_goals(db: Session = Depends(get_db)):
+    models = models_crud.get_model_progress(db=db)
+    return models

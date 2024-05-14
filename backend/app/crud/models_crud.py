@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func, case
 from ..models.model import Model
 from ..schemas.model import CreateModel
 from ..schemas.model_update import ModelUpdate
@@ -48,3 +49,24 @@ def delete_model(db: Session, model_id: int):
         db.commit()
         return True
     return False
+
+
+def get_model_progress(db: Session):
+    # Calcula los tokens faltantes, ajustando valores negativos a cero usando una expresión CASE en lugar de GREATEST
+    token_goal = func.coalesce(Model.token_goal, 0)
+    tokens_generated = func.coalesce(Model.tokens_generated, 0)
+    tokens_faltantes = case(
+        (token_goal - tokens_generated >= 0, token_goal - tokens_generated),
+        else_=0
+    )
+
+    # Realiza la consulta seleccionando las columnas específicas y la columna calculada
+    return db.query(
+        Model.username,
+        Model.id,
+        token_goal.label("token_goal"),
+        tokens_generated.label("tokens_generated"),
+        tokens_faltantes.label("tokens_faltantes")
+    ).all()
+    
+    
