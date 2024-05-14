@@ -1,24 +1,24 @@
 <template>
   <div class="form-container">
     <form @submit.prevent="submitForm" class="model-form">
-      <select v-model="selectedUsername" class="form-input">
+      <select v-model="selectedUsername" class="form-input" :class="{'input-error': !selectedUsername}">
         <option disabled value="">Seleccione un usuario</option>
         <option v-for="user in usernames" :key="user.username" :value="user.username">{{ user.username }}</option>
       </select>
 
-      <input type="text" v-model.trim="name" placeholder="Nombre completo" class="form-input">
-      <input type="email" v-model.trim="email" placeholder="Correo electrónico" class="form-input">
-      <input type="tel" v-model.trim="phone" placeholder="Teléfono" class="form-input">
+      <input type="text" v-model.trim="name" placeholder="Nombre completo" class="form-input" :class="{'input-error': !name}">
+      <input type="email" v-model.trim="email" placeholder="Correo electrónico" class="form-input" :class="{'input-error': !email}">
+      <input type="tel" v-model.trim="phone" placeholder="Teléfono" class="form-input" :class="{'input-error': !phone}">
       
-      <select v-model="typeAccount" class="form-input">
+      <select v-model="typeAccount" class="form-input" :class="{'input-error': !typeAccount}">
         <option disabled value="">Seleccione tipo de cuenta</option>
         <option value="Nequi">Nequi</option>
         <option value="Ahorro a la mano">Ahorro a la mano</option>
         <option value="Ahorros Bancolombia">Ahorros Bancolombia</option>
       </select>
 
-      <input type="text" v-model.trim="numberAccount" placeholder="Número de cuenta" class="form-input">
-      <input type="number" v-model.number="connectionHours" placeholder="Horas de conexión diarias" min="0" step="0.1" class="form-input">
+      <input type="text" v-model.trim="numberAccount" placeholder="Número de cuenta" class="form-input" :class="{'input-error': !numberAccount}">
+      <input type="number" v-model.number="connectionHours" placeholder="Horas de conexión diarias" min="0" step="0.1" class="form-input" :class="{'input-error': !connectionHours}">
   
       <button type="submit" class="form-button">Crear Modelo</button>
       <button type="button" @click="goBack" class="form-button back-button">Atrás</button>
@@ -90,6 +90,7 @@ export default {
   --background-color: #f5f5f5;
   --input-border: #ccc;
   --input-focus-border: #4CAF50;
+  --input-error-border: #f44336;
   --button-hover-opacity: 0.8;
   --box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
@@ -128,6 +129,10 @@ body {
 .form-input:focus {
   border-color: var(--input-focus-border);
   outline: none;
+}
+
+.input-error {
+  border-color: var(--input-error-border);
 }
 
 .form-button, .back-button {

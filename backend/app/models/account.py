@@ -14,3 +14,4 @@ class Account(Base):
     pages = relationship("Page", back_populates="accounts")
     user = relationship("User", back_populates="accounts")
     model = relationship("Model", back_populates="accounts")
+    tokens = relationship("Tokens", back_populates="accounts")
