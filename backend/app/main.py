@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .api.endpoints import users, models, sessions,tests# Importa los módulos de endpoint
+from .api.endpoints import users, models, sessions,tests,pages# Importa los módulos de endpoint
 from .api.endpoints.tests import router as test_db_router
 from .core.config import settings  # Importa configuraciones si es necesario
 from .db import engine  # Importa el motor de la base de datos
@@ -25,6 +25,7 @@ def read_root():
     return {"Hellow": "world"}
 app.include_router(users.router)
 app.include_router(models.router)
+app.include_router(pages.router)
 app.include_router(test_db_router)
 app.add_middleware(
     CORSMiddleware,
