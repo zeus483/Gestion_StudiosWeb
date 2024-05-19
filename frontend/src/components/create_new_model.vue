@@ -1,27 +1,55 @@
 <template>
   <div class="form-container">
     <form @submit.prevent="submitForm" class="model-form">
-      <select v-model="selectedUsername" class="form-input" :class="{'input-error': !selectedUsername}">
-        <option disabled value="">Seleccione un usuario</option>
-        <option v-for="user in usernames" :key="user.username" :value="user.username">{{ user.username }}</option>
-      </select>
+      <div class="form-row">
+        <div class="form-column">
+          <select v-model="selectedUsername" class="form-input" :class="{'input-error': !selectedUsername}">
+            <option disabled value="">Seleccione un usuario</option>
+            <option v-for="user in usernames" :key="user.username" :value="user.username">{{ user.username }}</option>
+          </select>
+        </div>
+        <div class="form-column">
+          <input type="text" v-model.trim="name" placeholder="Nombre completo" class="form-input" :class="{'input-error': !name}">
+        </div>
+      </div>
 
-      <input type="text" v-model.trim="name" placeholder="Nombre completo" class="form-input" :class="{'input-error': !name}">
-      <input type="email" v-model.trim="email" placeholder="Correo electrónico" class="form-input" :class="{'input-error': !email}">
-      <input type="tel" v-model.trim="phone" placeholder="Teléfono" class="form-input" :class="{'input-error': !phone}">
-      
-      <select v-model="typeAccount" class="form-input" :class="{'input-error': !typeAccount}">
-        <option disabled value="">Seleccione tipo de cuenta</option>
-        <option value="Nequi">Nequi</option>
-        <option value="Ahorro a la mano">Ahorro a la mano</option>
-        <option value="Ahorros Bancolombia">Ahorros Bancolombia</option>
-      </select>
+      <div class="form-row">
+        <div class="form-column">
+          <input type="email" v-model.trim="email" placeholder="Correo electrónico" class="form-input" :class="{'input-error': !email}">
+        </div>
+        <div class="form-column">
+          <input type="tel" v-model.trim="phone" placeholder="Teléfono" class="form-input" :class="{'input-error': !phone}">
+        </div>
+      </div>
 
-      <input type="text" v-model.trim="numberAccount" placeholder="Número de cuenta" class="form-input" :class="{'input-error': !numberAccount}">
-      <input type="number" v-model.number="connectionHours" placeholder="Horas de conexión diarias" min="0" step="0.1" class="form-input" :class="{'input-error': !connectionHours}">
-  
-      <button type="submit" class="form-button">Crear Modelo</button>
-      <button type="button" @click="goBack" class="form-button back-button">Atrás</button>
+      <div class="form-row">
+        <div class="form-column">
+          <select v-model="typeAccount" class="form-input" :class="{'input-error': !typeAccount}">
+            <option disabled value="">Seleccione tipo de cuenta</option>
+            <option value="Nequi">Nequi</option>
+            <option value="Ahorro a la mano">Ahorro a la mano</option>
+            <option value="Ahorros Bancolombia">Ahorros Bancolombia</option>
+          </select>
+        </div>
+        <div class="form-column">
+          <input type="text" v-model.trim="numberAccount" placeholder="Número de cuenta" class="form-input" :class="{'input-error': !numberAccount}">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-column">
+          <input type="number" v-model.number="connectionHours" placeholder="Horas de conexión diarias" min="0" step="0.1" class="form-input" :class="{'input-error': !connectionHours}">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-column">
+          <button type="submit" class="form-button">Crear Modelo</button>
+        </div>
+        <div class="form-column">
+          <button type="button" @click="goBack" class="form-button back-button">Atrás</button>
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -103,7 +131,7 @@ body {
   background-color: var(--background-color);
 }
 
-.form-container {   
+.form-container {
   max-width: 600px;
   margin: auto;
   padding: 20px;
@@ -116,6 +144,15 @@ body {
 .model-form {
   display: flex;
   flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-column {
+  width: 48%;
 }
 
 .form-input {
@@ -166,6 +203,14 @@ body {
     width: 100%;
     padding: 10px;
     box-shadow: none;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-column {
+    width: 100%;
   }
 
   .form-input, .form-button, .back-button {
