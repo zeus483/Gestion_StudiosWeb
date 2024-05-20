@@ -11,6 +11,7 @@ class Account(Base):
     user_model = Column(String, ForeignKey('users.username'))
     password = Column(String, nullable=False)
     model_name = Column(String, ForeignKey('models.name'))
+    api_token = Column(String)
     pages = relationship("Page", back_populates="accounts")
     user = relationship("User", back_populates="accounts")
     model = relationship("Model", back_populates="accounts")
