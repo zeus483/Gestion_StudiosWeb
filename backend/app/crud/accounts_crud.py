@@ -14,7 +14,8 @@ def createModel(db:Session, account: AccountCreate):
         password = account.password, 
         model_name = account.model_name, 
         page = account.page, 
-        user_model = account.user_model)
+        user_model = account.user_model,
+        api_token = account.api_token)
 
     db.add(new_account)
     db.commit()
