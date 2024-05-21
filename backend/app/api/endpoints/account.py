@@ -5,6 +5,7 @@ from passlib.context import CryptContext
 from ...models.account import Account
 from ...schemas.account import AccountCreate
 from ...crud import accounts_crud 
+import requests
 from typing import List
 router = APIRouter()
 
@@ -30,3 +31,12 @@ def delete_account(account_id: int, db: Session = Depends(get_db)):
     if account is None:
         raise HTTPException(status_code=404, detail="Account not found")
     return account
+
+@router.get("/proxy")
+def proxy_request(url: str):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail=str(e))

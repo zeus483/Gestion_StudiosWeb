@@ -21,11 +21,25 @@
         <p>Followers: <span>{{ topModel.followers }}</span></p>
         <p>Hours: <span>{{ topModel.hours }}</span></p>
       </div>
+      <div class="api-accounts">
+        <h2>Chaturbate Models</h2>
+        <div v-for="account in apiAccounts" :key="account.username" class="account-info">
+          <span :class="{'online-dot': account.time_online !== -1, 'offline-dot': account.time_online === -1}"></span>
+          <span>{{ account.username }}</span>
+          <span>Tokens: {{ account.token_balance }}</span>
+          <span>Followers: {{ account.num_followers }}</span>
+        </div>
+        <div class="total-tokens">
+          <h3>Total Tokens: {{ totalTokens }}</h3>
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -33,8 +47,17 @@ export default {
         tokens: 'name_model_top_tokens',
         followers: 'name_model_top_followers',
         hours: 'name_model_top_hours'
-      }
+      },
+      apiAccounts: [],
+      totalTokens: 0
     };
+  },
+  mounted() {
+    this.fetchApiAccounts();
+    this.interval = setInterval(this.fetchApiAccounts, 150000); // Actualiza cada 150,000 milisegundos (2.5 minutos)
+  },
+  beforeUnmount() {
+    clearInterval(this.interval);
   },
   methods: {
     goToCreateUser() {
@@ -44,7 +67,24 @@ export default {
       this.$router.push('/create-model');
     },
     goToGoals(){
-      this.$router.push("/model-goals")
+      this.$router.push("/model-goals");
+    },
+    fetchApiAccounts() {
+      axios.get('http://localhost:8080/api/accounts')
+        .then(response => {
+          const accountsWithApiToken = response.data.filter(account => account.api_token);
+          const accountRequests = accountsWithApiToken.map(account => 
+            axios.get(`http://localhost:8080/api/proxy?url=${encodeURIComponent(account.api_token)}`)
+              .then(res => ({ ...res.data, api_token: account.api_token }))
+          );
+          Promise.all(accountRequests)
+            .then(apiAccountsData => {
+              this.apiAccounts = apiAccountsData;
+              this.totalTokens = apiAccountsData.reduce((sum, account) => sum + account.token_balance, 0);
+            })
+            .catch(error => console.error('Error fetching API accounts:', error));
+        })
+        .catch(error => console.error('Error fetching accounts:', error));
     }
   }
 }
@@ -142,17 +182,53 @@ body {
   color: var(--header-text);
 }
 
-.model-details {
+.model-details, .api-accounts {
   border: 1px solid var(--border-color);
   padding: 20px;
   background-color: white;
   border-radius: 8px;
   box-shadow: var(--box-shadow);
+  margin-bottom: 20px;
 }
 
-.model-details h2 {
+.model-details h2, .api-accounts h2 {
   margin-top: 0;
   color: var(--text-color);
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.account-info:last-child {
+  border-bottom: none;
+}
+
+.online-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #39ff14; /* Verde neón */
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.offline-dot {
+  width: 10px;
+  height: 10px;
+  background-color: gray;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.total-tokens {
+  margin-top: 20px;
+  font-weight: bold;
 }
 
 /* Responsividad */

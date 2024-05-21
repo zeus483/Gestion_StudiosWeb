@@ -43,6 +43,30 @@
       </div>
 
       <div class="form-row">
+        <label>
+          <input type="checkbox" v-model="addAccounts"> Agregar cuentas
+        </label>
+      </div>
+
+      <div v-if="addAccounts" class="form-row">
+        <div class="form-column">
+          <label for="pages">Seleccione páginas</label>
+          <select v-model="selectedPages" multiple class="form-input">
+            <option v-for="page in pages" :key="page.name" :value="page">{{ page.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div v-for="page in selectedPages" :key="page.name" class="form-row">
+        <div class="form-column">
+          <input type="text" v-model="page.password" :placeholder="'Contraseña para ' + page.name" class="form-input">
+        </div>
+        <div v-if="page.name === 'Chaturbate'" class="form-column">
+          <input type="text" v-model="page.apiToken" placeholder="API Token" class="form-input">
+        </div>
+      </div>
+
+      <div class="form-row">
         <div class="form-column">
           <button type="submit" class="form-button">Crear Modelo</button>
         </div>
@@ -67,11 +91,15 @@ export default {
       phone: '',
       typeAccount: '',
       numberAccount: '',
-      connectionHours: null
+      connectionHours: null,
+      addAccounts: false,
+      pages: [],
+      selectedPages: []
     }
   },
   mounted() {
     this.fetchUsernames();
+    this.fetchPages();
   },
   methods: {
     fetchUsernames() {
@@ -80,6 +108,13 @@ export default {
           this.usernames = response.data.filter(user => user.role === 'Modelo');
         })
         .catch(error => console.error('Error fetching usernames:', error));
+    },
+    fetchPages() {
+      axios.get('http://192.168.1.172:8080/api/pages')
+        .then(response => {
+          this.pages = response.data;
+        })
+        .catch(error => console.error('Error fetching pages:', error));
     },
     submitForm() {
       const userData = {
@@ -92,15 +127,32 @@ export default {
         connection_hours: this.connectionHours
       };
       axios.post('http://192.168.1.172:8080/api/createModel', userData)
-      .then(response => {
-        alert('Modelo creado con éxito');
-        console.log(response);
-        window.location.href = 'http://192.168.1.172:8080/admin';
-      })
-      .catch(error => {
-        console.error('Hubo un error al crear el modelo:', error);
-        alert('Error al crear el modelo');
-      });
+        .then(() => {
+          if (this.addAccounts) {
+            this.selectedPages.forEach(page => {
+              const accountData = {
+                password: page.password,
+                model_name: this.name,
+                page: page.url,
+                user_model: this.selectedUsername,
+                api_token: page.name === 'Chaturbate' ? page.apiToken : undefined
+              };
+              axios.post('http://192.168.1.172:8080/api/createAccount', accountData)
+                .then(accountResponse => {
+                  console.log('Cuenta creada con éxito:', accountResponse);
+                })
+                .catch(accountError => {
+                  console.error('Error al crear la cuenta:', accountError);
+                });
+            });
+          }
+          alert('Modelo creado con éxito');
+          window.location.href = 'http://192.168.1.172:8080/admin';
+        })
+        .catch(error => {
+          console.error('Hubo un error al crear el modelo:', error);
+          alert('Error al crear el modelo');
+        });
     },
     goBack() {
       window.location.href = 'http://192.168.1.172:8080/admin';
@@ -149,6 +201,7 @@ body {
 .form-row {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .form-column {
