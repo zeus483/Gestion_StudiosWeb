@@ -70,11 +70,11 @@ export default {
       this.$router.push("/model-goals");
     },
     fetchApiAccounts() {
-      axios.get('http://localhost:8080/api/accounts')
+      axios.get('http://192.168.1.172:8080/api/accounts')
         .then(response => {
           const accountsWithApiToken = response.data.filter(account => account.api_token);
           const accountRequests = accountsWithApiToken.map(account => 
-            axios.get(`http://localhost:8080/api/proxy?url=${encodeURIComponent(account.api_token)}`)
+            axios.get(`http://192.168.1.172:8080/api/proxy?url=${encodeURIComponent(account.api_token)}`)
               .then(res => ({ ...res.data, api_token: account.api_token }))
           );
           Promise.all(accountRequests)
