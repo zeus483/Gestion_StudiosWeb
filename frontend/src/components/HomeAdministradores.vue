@@ -54,7 +54,7 @@ export default {
   },
   mounted() {
     this.fetchApiAccounts();
-    this.interval = setInterval(this.fetchApiAccounts, 150000); // Actualiza cada 150,000 milisegundos (2.5 minutos)
+    this.interval = setInterval(this.fetchApiAccounts, 15000000000); // Actualiza cada 150,000 milisegundos (2.5 minutos)
   },
   beforeUnmount() {
     clearInterval(this.interval);
